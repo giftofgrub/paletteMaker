@@ -16,11 +16,11 @@ class Navbar extends Component {
       format: 'hex',
       open: false,
     }
-    this.handleChange = this.handleChange.bind(this);
+    this.changeFormat = this.changeFormat.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
-  handleChange(e) {
+  changeFormat(e) {
     // open snackbar for only 3 seconds
     this.setState({ format: e.target.value, open: true }, () => {
       window.setTimeout(() => this.setState({open:false}), 3000);
@@ -33,7 +33,7 @@ class Navbar extends Component {
   }
 
   render() {
-    const { level, changeLevel } = this.props;
+    const { level, changeLevel, singleColor } = this.props;
     const { format } = this.state;
     return (
       <header className="Navbar">
@@ -42,19 +42,21 @@ class Navbar extends Component {
             Palette Maker
           </Link>
         </div>
-        <div className="slider-container">
-          <span>Level: {level}</span>
-          <div className="slider">
-            <Slider 
-              defaultValue={ level } 
-              min={100} 
-              max={900}
-              step={100}
-              onAfterChange={changeLevel}/>
+        {!singleColor && (
+          <div className="slider-container">
+            <span>Level: {level}</span>
+            <div className="slider">
+              <Slider 
+                defaultValue={ level } 
+                min={100} 
+                max={900}
+                step={100}
+                onAfterChange={changeLevel}/>
+            </div>
           </div>
-        </div>
+        )}
         <div className="select-container">
-          <Select value={format} onChange={this.handleChange}>
+          <Select value={format} onChange={this.changeFormat}>
             <MenuItem value="hex">HEX - #ffffff</MenuItem>
             <MenuItem value="rgb">RGB - rgb(255,255,255)</MenuItem>
             <MenuItem value="rgba">RGBA - rgba(255,255,255,1.0)</MenuItem>
