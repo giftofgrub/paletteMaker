@@ -17,6 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import DraggableColorBox from './DraggableColorBox'
 import { ChromePicker } from 'react-color';
 
 const drawerWidth = 400;
@@ -61,12 +62,14 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    height: "calc(55vh - 64px)",
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+    
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -159,11 +162,11 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <ul>
-          {colors.map((color) => 
-            <li style={{backgroundColor: color}}>{color}</li>
-          )}
-        </ul>
+        
+        {colors.map((color) => 
+          <DraggableColorBox color={color}/>
+        )}
+        
         
       </main>
     </div>
