@@ -127,6 +127,17 @@ export default function NewPaletteForm(props) {
     setNewColorName(evt.target.value)
   }
 
+  const handleSubmit = () => {
+    let newName = "New Test Palette";
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, "-"),
+      colors: colors
+    };
+    props.savePalette(newPalette);
+    props.history.push("/")
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -149,6 +160,12 @@ export default function NewPaletteForm(props) {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handleSubmit}>
+              Save Palette
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

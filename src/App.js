@@ -8,10 +8,23 @@ import NewPaletteForm from './NewPaletteForm'
 import { generatePalette } from './colorHelpers';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      palettes: seedPalette
+    }
+    this.savePalette = this.savePalette.bind(this);
+    this.findPalette = this.findPalette.bind(this);
+  }
+  
   findPalette(id) {
-    return seedPalette.find( (palette) => 
+    return this.state.palettes.find( (palette) => 
     palette.id === id
     );
+  }
+
+  savePalette(newPalette) {
+    this.setState({palettes : [...this.state.palettes, newPalette]})
   }
   
   render() {
@@ -20,7 +33,7 @@ class App extends Component {
         <Route 
           exact
           path="/palette/new"
-          render={() => <NewPaletteForm/>}/>
+          render={(rtProps) => <NewPaletteForm savePalette={this.savePalette} {...rtProps}/>}/>
 
         
         <Route 
@@ -41,7 +54,7 @@ class App extends Component {
           exact
           path="/" 
           render={ (rtProps) => 
-            <PaletteList palettes={seedPalette} {...rtProps}/>
+            <PaletteList palettes={this.state.palettes} {...rtProps}/>
           }
         />
         <Route 
