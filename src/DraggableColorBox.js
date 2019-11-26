@@ -1,6 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import { SortableElement } from 'react-sortable-hoc';
 const styles = {
   root: {
     height: props => props.showingFullPalette ? "25%" : "50%",
@@ -51,4 +52,4 @@ function DraggableColorBox(props) {
   );
 }
 
-export default withStyles(styles)(DraggableColorBox);
+export default withStyles(styles)(SortableElement(DraggableColorBox));
