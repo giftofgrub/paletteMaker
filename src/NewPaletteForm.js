@@ -88,7 +88,8 @@ export default function NewPaletteForm(props) {
   const [currentColor, setCurrentColor] = React.useState("teal");
   const [colors, setColors] = React.useState([]);
   const [newColorName, setNewColorName] = React.useState("");
-
+  const [newPaletteName, setPaletteName] = React.useState("");
+  
   React.useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", value => {
       return colors.every(
@@ -98,6 +99,11 @@ export default function NewPaletteForm(props) {
     ValidatorForm.addValidationRule("isColorUnique", value => {
       return colors.every(
         ({ color }) => color !== currentColor
+      );
+    });
+    ValidatorForm.addValidationRule("isPaletteNameUnique", value => {
+      return props.palettes.every(
+        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
       );
     });
   });
@@ -124,14 +130,15 @@ export default function NewPaletteForm(props) {
   }
 
   const handleChange = (evt) => {
-    setNewColorName(evt.target.value)
+    // https://stackoverflow.com/questions/54679928/using-dynamic-var-with-set-state-in-react-hooks
+    const { name, value } = evt.target;
+    name === "newColorName" ? setNewColorName(value) : setPaletteName(value);
   }
 
   const handleSubmit = () => {
-    let newName = "New Test Palette";
     const newPalette = {
-      paletteName: newName,
-      id: newName.toLowerCase().replace(/ /g, "-"),
+      paletteName: newPaletteName,
+      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
       colors: colors
     };
     props.savePalette(newPalette);
@@ -160,12 +167,26 @@ export default function NewPaletteForm(props) {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            onClick={handleSubmit}>
-              Save Palette
-          </Button>
+
+          <ValidatorForm onSubmit={handleSubmit}>
+            <TextValidator 
+              name="newPaletteName"
+              label="Palette Name"
+              value={newPaletteName}
+              onChange={handleChange}
+              validators={['required', 'isPaletteNameUnique']}
+              errorMessages={['Enter a palette name', 'Palette name already taken']}
+              />
+            
+            <Button 
+              variant="contained" 
+              color="primary" 
+              type="submit">
+                Save Palette
+            </Button>
+
+          </ValidatorForm>
+          
         </Toolbar>
       </AppBar>
       <Drawer
@@ -193,7 +214,8 @@ export default function NewPaletteForm(props) {
         
         <ChromePicker color={currentColor} onChangeComplete={updateCurrentColor}/>
         <ValidatorForm onSubmit={addNewColor}>
-          <TextValidator 
+          <TextValidator
+            name="newColorName" 
             value={newColorName} 
             onChange={handleChange}
             validators={['required', 'isColorNameUnique', 'isColorUnique']}
