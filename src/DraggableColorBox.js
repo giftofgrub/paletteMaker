@@ -1,5 +1,6 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 const styles = {
   root: {
     height: props => props.showingFullPalette ? "25%" : "50%",
@@ -9,18 +10,40 @@ const styles = {
     position: "relative",
     cursor: "pointer",
     marginBottom: "-3.5px",
-    "&:hover button": {
-      opacity: "1",
+    "&:hover svg": {
+      color: "white",
+      transform: "scale(1.5)"
     }
-  }
+  },
+  boxContent: {
+    position: "absolute",
+    width: "100%",
+    left: "0px",
+    bottom: "0px",
+    color: "rgba(0, 0, 0, 0.5)",
+    padding: "10px",
+    textTransform: "uppercase",
+    fontSize: "12px",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  deleteIcon: {
+    color: "rgba(0, 0, 0, 0.5)",
+    transition: "all 0.3s ease-in-out"
+  },
 }
 
 function DraggableColorBox(props) {
+  const {classes} = props;
   return (
     <div 
       style={{backgroundColor: props.color}}
-      className={props.classes.root}>
-      {props.name}
+      className={classes.root}>
+      
+      <div className={classes.boxContent}>
+        <span>{props.name}</span>
+        <DeleteForeverOutlinedIcon className={classes.deleteIcon}/>
+      </div>
     </div>
   );
 }
