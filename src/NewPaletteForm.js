@@ -1,5 +1,6 @@
 import React from 'react';
 import PaletteFormNav from './PaletteFormNav';
+import ColorPickerForm from './ColorPickerForm';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,8 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import { ChromePicker } from 'react-color';
 import DraggableColorList from './DraggableColorList';
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -78,22 +77,10 @@ function NewPaletteForm(props) {
   
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = React.useState("teal");
   const [colors, setColors] = React.useState(props.palettes[0].colors);
-  const [newColorName, setNewColorName] = React.useState("");
-  const [newPaletteName, setPaletteName] = React.useState("");
   
   React.useEffect(() => {
-    ValidatorForm.addValidationRule("isColorNameUnique", value => {
-      return colors.every(
-        ({ name }) => name.toLowerCase() !== value.toLowerCase()
-      );
-    });
-    ValidatorForm.addValidationRule("isColorUnique", value => {
-      return colors.every(
-        ({ color }) => color !== currentColor
-      );
-    });
+    
   });
 
   const paletteIsFull = colors.length >= props.maxColors;
@@ -106,24 +93,15 @@ function NewPaletteForm(props) {
     setOpen(false);
   };
 
-  const updateCurrentColor = (newColor) => {
-    setCurrentColor(newColor.hex);
-  }
-
-  const addNewColor = () => {
-    const newColor = {
-      color: currentColor,
-      name: newColorName
-    }
+  const addNewColor = (newColor) => {
     setColors([...colors, newColor]);
-    setNewColorName("");
   }
 
-  const handleChange = (evt) => {
-    // https://stackoverflow.com/questions/54679928/using-dynamic-var-with-set-state-in-react-hooks
-    const { name, value } = evt.target;
-    name === "newColorName" ? setNewColorName(value) : setPaletteName(value);
-  }
+  // const handleChange = (evt) => {
+  //   // https://stackoverflow.com/questions/54679928/using-dynamic-var-with-set-state-in-react-hooks
+  //   const { name, value } = evt.target;
+  //   name === "newColorName" ? setNewColorName(value) : setPaletteName(value);
+  // }
 
   const handleSubmit = (newPaletteName) => {
     const newPalette = {
@@ -195,25 +173,8 @@ function NewPaletteForm(props) {
             disabled={paletteIsFull}>Random Color</Button>
         </div>
         
-        <ChromePicker color={currentColor} onChangeComplete={updateCurrentColor}/>
-        <ValidatorForm onSubmit={addNewColor}>
-          <TextValidator
-            name="newColorName" 
-            value={newColorName} 
-            onChange={handleChange}
-            validators={['required', 'isColorNameUnique', 'isColorUnique']}
-            errorMessages={['Enter a color name', 'Color name must be unique', 'Color must be unique']}/>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            style={{backgroundColor: paletteIsFull ? "grey" : currentColor}}
-            type="submit"
-            disabled={paletteIsFull}
-          >
-              {paletteIsFull ? "Palette Full" : "Add Color"}
-          </Button>
-        </ValidatorForm>
-        
+      <ColorPickerForm paletteIsFull={paletteIsFull} addNewColor={addNewColor} colors={colors}/>
+
       </Drawer>
       <main
         className={clsx(classes.content, {
