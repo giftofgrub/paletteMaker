@@ -40,7 +40,7 @@ class Navbar extends Component {
       <header className={classes.Navbar}>
         <div className={classes.logo}>
           <Link to="/">
-            Palette Maker
+            Palette Pal
           </Link>
         </div>
         {!singleColor && (
