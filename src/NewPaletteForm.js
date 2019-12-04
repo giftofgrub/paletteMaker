@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth,
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   drawerHeader: {
     display: 'flex',
@@ -78,9 +78,10 @@ function NewPaletteForm(props) {
   const [open, setOpen] = React.useState(false);
   const [colors, setColors] = React.useState(props.palettes[0].colors);
   
-  React.useEffect(() => {
+  // componentDidMount() {} --> class component
+  // React.useEffect(() => {
     
-  });
+  // }) ---> functional component;
 
   const paletteIsFull = colors.length >= props.maxColors;
 
@@ -159,7 +160,7 @@ function NewPaletteForm(props) {
 
         <div className={classes.container}>
           {/* gutterBottom adds margin below component */}
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Design Your Palette
           </Typography>
           <div className={classes.buttons}>
