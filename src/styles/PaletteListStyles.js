@@ -22,7 +22,7 @@ export default {
     /* background by SVGBackgrounds.com */
   },
   heading: {
-    fontSize: "2rems"
+    fontSize: "2.5rem"
   },
   container: {
     width: "50%",

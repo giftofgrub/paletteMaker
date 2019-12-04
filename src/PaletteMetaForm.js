@@ -25,12 +25,12 @@ function PaletteMetaForm(props) {
   }
 
   const savePalette = (emoji) => {
-    console.log(emoji.native);
     const newPalette = {
         paletteName: newPaletteName,
         emoji: emoji.native,
     }
     props.handleSubmit(newPalette);
+    setStage("");
   }
 
   const showEmojiPicker = () => {

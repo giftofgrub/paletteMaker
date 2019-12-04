@@ -7,7 +7,7 @@ import SingleColorPalette from './SingleColorPalette';
 import NewPaletteForm from './NewPaletteForm'
 import { generatePalette } from './colorHelpers';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import "./App.css"
+import Page from './Page';
 
 class App extends Component {
   constructor(props) {
@@ -53,26 +53,26 @@ class App extends Component {
       // for animating route transition
       <Route render={({location}) => (
         <TransitionGroup>
-          <CSSTransition key={location.key} classNames='fade' timeout={500}>
+          <CSSTransition key={location.key} classNames='page' timeout={500}>
             <Switch location={location}>
               <Route 
                 exact
                 path="/palette/new"
                 render={(rtProps) => 
-                  <div className='page'>
+                  <Page>
                     <NewPaletteForm 
                       savePalette={this.savePalette} 
                       palettes={this.state.palettes}
                       {...rtProps}
                     />
-                  </div>
+                  </Page>
                 }/>
               
               <Route 
                 exact
                 path="/palette/:paletteId/:colorId"
                 render={ (rtProps) => 
-                  <div className='page'>
+                  <Page>
                     <SingleColorPalette 
                       colorId={rtProps.match.params.colorId}
                       palette={
@@ -80,7 +80,7 @@ class App extends Component {
                       }
                     >  
                     </SingleColorPalette>
-                  </div>
+                  </Page>
                 }
               />
 
@@ -88,12 +88,12 @@ class App extends Component {
                 exact
                 path="/" 
                 render={ (rtProps) => 
-                  <div className='page'>
+                  <Page>
                     <PaletteList 
                       palettes={this.state.palettes} 
                       deletePalette={this.deletePalette}
                       {...rtProps}/>
-                  </div>
+                  </Page>
                 }
               />
 
@@ -101,13 +101,13 @@ class App extends Component {
                 exact 
                 path="/palette/:id" 
                 render={ (rtProps) => 
-                  <div className='page'>
+                  <Page>
                     <Palette 
                       palette={
                         generatePalette( this.findPalette(rtProps.match.params.id) )
                       }
                     />  
-                  </div>
+                  </Page>
                 }/>
               
             
