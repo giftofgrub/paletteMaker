@@ -10,9 +10,9 @@ import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 
 function PaletteMetaForm(props) {
-  const [open, setOpen] = React.useState(true);
+  const [stage, setStage] = React.useState("form");
   const [newPaletteName, setNewPaletteName] = React.useState("");
-  const { handleSubmit, hideForm } = props;
+  const { hideForm } = props;
 
   const handleClose = () => {
     hideForm();
@@ -22,6 +22,19 @@ function PaletteMetaForm(props) {
     //   // https://stackoverflow.com/questions/54679928/using-dynamic-var-with-set-state-in-react-hooks
       const { value } = evt.target;
       setNewPaletteName(value);
+  }
+
+  const savePalette = (emoji) => {
+    console.log(emoji.native);
+    const newPalette = {
+        paletteName: newPaletteName,
+        emoji: emoji.native,
+    }
+    props.handleSubmit(newPalette);
+  }
+
+  const showEmojiPicker = () => {
+    setStage("emoji")
   }
 
   React.useEffect( () => {
@@ -34,15 +47,26 @@ function PaletteMetaForm(props) {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog 
+        open={stage === "emoji"}
+        onClose={handleClose}>
+        <DialogTitle id="form-dialog-title">Pick A Palette Emoji</DialogTitle>
+        <Picker 
+          title="Pick A Palette Emoji"
+          onSelect={savePalette}
+        />
+      </Dialog>
+      <Dialog 
+        open={stage === "form"} 
+        onClose={handleClose} 
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Enter Palette Name</DialogTitle>
-        <ValidatorForm onSubmit={() => handleSubmit(newPaletteName)}>
+        <ValidatorForm onSubmit={showEmojiPicker}>
           <DialogContent>
             <DialogContentText>
               Please enter a name for your new palette. Make sure the name is unique!
             </DialogContentText>
-
-            <Picker />
 
             <TextValidator 
               name="newPaletteName"
