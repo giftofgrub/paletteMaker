@@ -1,7 +1,9 @@
+import sizes from './sizes';
+
 const styles = {
   root: {
-    height: props => props.showingFullPalette ? "25%" : "50%",
     width: "20%",
+    height: "50%",
     margin: "0 auto",
     display: "inline-block",
     position: "relative",
@@ -10,6 +12,18 @@ const styles = {
     "&:hover svg": {
       color: "white",
       transform: "scale(1.5)"
+    },
+    [sizes.down("lg")] : {
+      width: "25%",
+      height: "40%"
+    },
+    [sizes.down("md")] : {
+      width: "50%",
+      height: "20%"
+    },
+    [sizes.down("sm")] : {
+      width: "100%",
+      height: "10%"
     }
   },
   boxContent: {
