@@ -129,7 +129,9 @@ function NewPaletteForm(props) {
           colors={colors} 
           removeColor={removeColor}
           axis="xy"
-          onSortEnd={onSortEnd}/>
+          onSortEnd={onSortEnd}
+          distance={10}
+        />
       </main>
     </div>
   );
