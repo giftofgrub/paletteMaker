@@ -61,12 +61,23 @@ function NewPaletteForm(props) {
   }
 
   const addRandomColor = () => {
-    const palettesToChooseFrom = props.palettes.length !== 0 ? props.palettes : seedPalette; 
-    const allColors = [].concat( ...palettesToChooseFrom.map( p => p.colors) );
-    // prevent existing color to be used
-    const filteredColors = allColors.filter( color => !colors.includes(color))
-    var rand = Math.floor(Math.random() * allColors.length) ;
-    var randomColor = filteredColors[rand];
+    // const palettesToChooseFrom = props.palettes.length !== 0 ? props.palettes : seedPalette; 
+    // const allColors = [].concat( ...palettesToChooseFrom.map( p => p.colors) );
+    // // prevent existing color to be used
+    // const filteredColors = allColors.filter( color => !colors.includes(color))
+    // var rand = Math.floor(Math.random() * allColors.length);
+    // var randomColor = filteredColors[rand];
+    const allPalettes = [...props.palettes, ...seedPalette];
+    const allColors = allPalettes.map( p => p.colors).flat();
+    let isDuplicate = true;
+    var rand;
+    var randomColor;
+    while(isDuplicate) {
+      rand = Math.floor(Math.random() * allColors.length);
+      randomColor = allColors[rand];
+      isDuplicate = colors.some(color => color.name === randomColor.name)
+    }
+
     setColors([...colors, randomColor]);
   }
 
