@@ -6,6 +6,7 @@ const drawerWidth = DRAWER_WIDTH;
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    height: '100%',
   },
   hide: {
     display: 'none',

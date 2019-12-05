@@ -4,7 +4,7 @@ import chroma from 'chroma-js';
 const styles = {
   root: {
     width: "20%",
-    height: "50%",
+    height: "45.5%",
     margin: "0 auto",
     display: "inline-block",
     position: "relative",
@@ -20,11 +20,11 @@ const styles = {
     },
     [sizes.down("md")] : {
       width: "50%",
-      height: "20%"
+      height: "18%"
     },
     [sizes.down("sm")] : {
       width: "100%",
-      height: "10%"
+      height: "9%"
     }
   },
   boxContent: {
