@@ -11,12 +11,13 @@ import Button from '@material-ui/core/Button'
 import DraggableColorList from './DraggableColorList';
 import { arrayMove } from 'react-sortable-hoc';
 import useStyles from './styles/NewPaletteFormStyles';
+import seedPalette from './seedPalette';
 
 function NewPaletteForm(props) {
   
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [colors, setColors] = React.useState(props.palettes[0].colors);
+  const [colors, setColors] = React.useState(seedPalette[0].colors);
   
   // componentDidMount() {} --> class component
   // React.useEffect(() => {
@@ -60,7 +61,8 @@ function NewPaletteForm(props) {
   }
 
   const addRandomColor = () => {
-    const allColors = [].concat( ...props.palettes.map( p => p.colors) );
+    const palettesToChooseFrom = props.palettes.length !== 0 ? props.palettes : seedPalette; 
+    const allColors = [].concat( ...palettesToChooseFrom.map( p => p.colors) );
     // prevent existing color to be used
     const filteredColors = allColors.filter( color => !colors.includes(color))
     var rand = Math.floor(Math.random() * allColors.length) ;
