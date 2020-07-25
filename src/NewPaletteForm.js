@@ -74,6 +74,7 @@ function NewPaletteForm(props) {
     while (isDuplicate) {
       rand = Math.floor(Math.random() * allColors.length);
       randomColor = allColors[rand];
+      // eslint-disable-next-line no-loop-func
       isDuplicate = colors.some((color) => color.name === randomColor.name);
     }
 
